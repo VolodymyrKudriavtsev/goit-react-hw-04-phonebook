@@ -23,20 +23,22 @@ const App = () => {
         return alert(`${name} is already in contacts.`);
     }
 
-    setContacts(prevState => [newContact, ...prevState]);
+    setContacts(prevContacts => [newContact, ...prevContacts]);
   };
 
   const deleteContact = contactId => {
-    setContacts(contacts.filter(contact => contact.id !== contactId));
+    setContacts(prevContacts =>
+      prevContacts.filter(contact => contact.id !== contactId)
+    );
   };
 
-  const chandgeFilter = e => {
-    setFilter(e.target.value);
-  };
+  const chandgeFilter = e => setFilter(e.target.value);
 
   const filteredContacts = contacts.filter(({ name }) =>
     name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  const isContacts = Boolean(filteredContacts.length);
 
   return (
     <Container>
@@ -44,10 +46,12 @@ const App = () => {
       <ContactForm onAddContact={addContact} />
       <h2>Contacts</h2>
       <Filter value={filter} onchandgeFilter={chandgeFilter} />
-      <ContactList
-        contacts={filteredContacts}
-        onDeleteContact={deleteContact}
-      />
+      {isContacts && (
+        <ContactList
+          contacts={filteredContacts}
+          onDeleteContact={deleteContact}
+        />
+      )}
     </Container>
   );
 };
