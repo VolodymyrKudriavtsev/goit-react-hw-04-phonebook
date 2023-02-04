@@ -23,9 +23,7 @@ const App = () => {
         return alert(`${name} is already in contacts.`);
     }
 
-    setContacts(() => {
-      return [newContact, ...contacts];
-    });
+    setContacts(prevState => [newContact, ...prevState]);
   };
 
   const deleteContact = contactId => {
